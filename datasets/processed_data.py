@@ -17,7 +17,7 @@ def clean_text(text):
             return np.nan
 
         text = re.sub(r'https?:\/\/.*[\r\n]*', '', text)
-        tweet2 = re.sub(r'#', '', text)
+        text = re.sub(r'#', '', text)
 
         return text
     except:
@@ -37,10 +37,11 @@ def merge_files(file_names):
     frames = []
     for filename in file_names:
         file = pd.read_csv(filename,sep=',')
+        file = file.drop('Score', 1)
         frames.append(process_r_oneliners(file))
     result = pd.concat(frames)
     print(result.shape[0])
-    result.to_csv("final.csv", sep=",",index=False)
+    result.to_csv("final.txt", sep=",",index=False)
 
 def main():
     filenames = ['r-copypasta-scraped.csv','r-Oneliners-scraped.csv','r-    Showerthoughts-scraped.csv']
