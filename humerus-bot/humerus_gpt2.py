@@ -1,5 +1,7 @@
 import pathlib
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+
+import torch.nn as nn
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 
 class HumerusGPT2:
@@ -10,12 +12,21 @@ class HumerusGPT2:
 
     def get_humour_score(self, sentence):
         x = self.tokenizer.encode(sentence, return_tensors='pt')
-        x = x.unsqueeze(0)
+        logits = self.model(x, labels=x)[1]
 
-        logits = self.model(x)[1]
-        print(logits)
+        x = x.squeeze(0)
+        logits = logits.squeeze(0)
+        nt_probs = nn.Softmax(dim=1)(logits)
+
+        prob = 0.0
+        for i in range(x.size(0)):
+            prob += nt_probs[i][x[i].item()].item()
+
+        avg_prob = prob / x.size(0)
+        return avg_prob
 
 
-model_dir = pathlib.Path(__file__).parents[1] / 'models'
-model = HumerusGPT2(model_dir)
-model.get_humour_score("Once upon a time")
+if __name__ == '__main__':
+    # debugging code
+    model_dir = pathlib.Path(__file__).parents[1] / 'models'
+    model = HumerusGPT2(model_dir)
