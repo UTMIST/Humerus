@@ -8,7 +8,11 @@ class HumerusGPT2:
 
     def __init__(self, model_path):
         self.tokenizer = GPT2Tokenizer.from_pretrained("distilgpt2")
-        self.model = GPT2LMHeadModel.from_pretrained(model_path)
+
+        if model_path.exists():
+            self.model = GPT2LMHeadModel.from_pretrained(model_path)
+        else:
+            self.model = GPT2LMHeadModel.from_pretrained("distilgpt2")
 
     def get_humour_score(self, sentence):
         x = self.tokenizer.encode(sentence, return_tensors='pt')
@@ -30,3 +34,5 @@ if __name__ == '__main__':
     # debugging code
     model_dir = pathlib.Path(__file__).parents[1] / 'models'
     model = HumerusGPT2(model_dir)
+    print(model.get_humour_score("Once upon a time"))
+    print(model.get_humour_score("asdjfwfwewgUh"))
