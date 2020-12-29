@@ -4,10 +4,11 @@ A script to embed the CAH sentences.
 
 import itertools
 import pathlib
-import pickle
 import time
 
+import h5py
 import json5
+import numpy as np
 import tqdm
 import wget
 from sentence_transformers import SentenceTransformer
@@ -17,7 +18,7 @@ from humerusbot.cardutils import CardUtils
 PARENT_DIR = pathlib.Path(__file__).parents[2] / 'datasets'
 DECK_DIR = PARENT_DIR / 'deck.json5'
 SENTENCE_DIR = PARENT_DIR / 'sentences.txt'
-EMBED_DIR = PARENT_DIR / 'embeddings.pkl'
+EMBED_DIR = PARENT_DIR / 'embeddings.h5'
 
 
 def download_deck():
@@ -38,11 +39,22 @@ def load_raw_cards():
     return black_cards, white_cards
 
 
+def load_sentences():
+    sentences = []
+    with open(SENTENCE_DIR, 'r', encoding='utf-8') as f:
+        for line in f.readlines():
+            sentences.append(line.rstrip('\n'))
+    return sentences
+
+
+def load_embeddings():
+    with h5py.File(EMBED_DIR, 'r') as hf:
+        embeddings = hf['embeddings'][:]
+        return embeddings
+
+
 def generate_sentences(black_cards, white_cards, verbose=True,
                        max_slots=1):
-    if SENTENCE_DIR.is_file():
-        return
-
     sentences = []
     card_stats = [0, 0, 0, 0]
     for black_card in tqdm.tqdm(black_cards, desc='Processing Black Cards'):
@@ -64,22 +76,21 @@ def generate_sentences(black_cards, white_cards, verbose=True,
             print(f"Cards with {i} blank(s):    - {card_stats[i]}")
         print(f"Sentences                 - {len(sentences)}")
 
+    sentences.sort()  # for reproducibility
     with open(SENTENCE_DIR, 'w+', encoding='utf-8') as f:
         f.write("\n".join(sentences))
     return sentences
 
 
 def embed_sentences(model, sentences):
-    if EMBED_DIR.is_file():
-        return
-
     model = SentenceTransformer(model)
-    embeddings = {}
+    embeddings = []
     for s in tqdm.tqdm(sentences, desc="Embedding Sentences"):
-        embeddings[s] = model.encode(s)  # <-- numpy array
+        embeddings.append(model.encode(s))  # <-- numpy array
+    embeddings = np.vstack(embeddings)
 
-    with open(EMBED_DIR, 'wb+') as f:
-        pickle.dump(embeddings, f)
+    with h5py.File(EMBED_DIR, 'w') as hf:
+        hf.create_dataset('embeddings', data=embeddings)
 
 
 def main():
@@ -90,4 +101,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    pass
