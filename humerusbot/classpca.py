@@ -1,6 +1,9 @@
 import pickle
 import numpy as np
-
+'''
+The pca class
+input matrix should be m x 768 where m is the number of examples.
+'''
 class pca:
     def __init__(self):
         with open('data/pca_cache_69.pkl', 'rb') as f:
@@ -18,7 +21,7 @@ class pca:
 
 # testing:
 '''
-arr = np.random.rand(768,768)
+arr = np.random.rand(1,768)
 print(arr.shape)
 p = pca()
 arr = p.reduce_kdim(arr, 69)
