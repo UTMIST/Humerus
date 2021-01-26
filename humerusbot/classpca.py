@@ -3,6 +3,7 @@ import numpy as np
 '''
 The pca class
 input matrix should be m x 768 where m is the number of examples.
+remember to change file name on line 10 to use different pca matrix
 '''
 class pca:
     def __init__(self):
