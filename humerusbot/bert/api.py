@@ -3,14 +3,14 @@ from flask_ngrok import run_with_ngrok
 import json
 import pickle5
 
-from ..utils import humerus
-from ..utils import pcaifier
+from .utils import humerus
+from .utils import pcaifier
 
 from sentence_transformers import SentenceTransformer
 
 
-pca_cache_path = "../data/pca_cache.pkl"
-embed_table_path = "../data/embed_table.pkl"
+pca_cache_path = "../../data/pca_cache_69_5050.pkl"
+embed_table_path = "../../data/training_set_data_69_5050.pkl"
 
 
 with open(embed_table_path, 'rb') as f:
@@ -24,8 +24,8 @@ pca_convert = pcaifier.pca(pca_cache_path)
 
 s_model = SentenceTransformer('distilbert-base-nli-mean-tokens')
 
-# we don't have a trained model to load yet!
-pred_net = humerus.predictionNetwork.from_scratch(69)
+# pred_net = humerus.predictionNetwork.from_scratch(69)
+pred_net = humerus.predictionNetwork.from_file(69, "./models/m1.h5")
 
 
 
