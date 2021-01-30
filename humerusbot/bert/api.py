@@ -3,8 +3,8 @@ from flask_ngrok import run_with_ngrok
 import json
 import pickle5
 
-from .utils import humerus
-from .utils import pcaifier
+from utils import humerus
+from utils import pcaifier
 
 from sentence_transformers import SentenceTransformer
 

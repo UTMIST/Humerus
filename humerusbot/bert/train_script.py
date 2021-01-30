@@ -3,9 +3,9 @@ import pickle5
 
 from sentence_transformers import SentenceTransformer
 
-from ..utils import dataManager
-from ..utils import pcaifier
-from ..utils import humerus
+from utils import dataManager
+from utils import pcaifier
+from utils import humerus
 
 postgres_keys = "/content/postgres_access.txt"
 dm = dataManager.DataManager(postgres_keys)

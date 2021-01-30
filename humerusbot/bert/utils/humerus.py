@@ -8,11 +8,12 @@ import pickle
 def make_model(input_size):
     model = keras.Sequential()
     model.add(layers.Dense(input_size, input_shape=(input_size, ), activation='relu'))
+    model.add(layers.BatchNormalization())
     model.add(layers.Dense(input_size))
+    model.add(layers.BatchNormalization())
     model.add(layers.Dense(1))
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
-
 
 class predictionNetwork:
     """basic binary classifier prediction network for CAH
