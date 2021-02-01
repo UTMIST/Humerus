@@ -26,7 +26,7 @@ pca_convert = pcaifier.pca(pca_cache_path)
 s_model = SentenceTransformer('distilbert-base-nli-mean-tokens')
 
 # pred_net = humerus.predictionNetwork.from_scratch(69)
-pred_net = humerus.predictionNetwork.from_file(69, "./models/m1.h5")
+pred_net = humerus.predictionNetwork.from_file(69, "./models/m2.h5")
 
 
 
