@@ -46,7 +46,7 @@ def eval_model():
             try:
                 embeds.append(embed_dict[play])
             except:
-                embeds.append(pcaifier.reduce_kdim(s_model.encode(play), 69))
+                embeds.append(pca_convert.reduce_kdim(s_model.encode(play), 69))
 
         embeds = np.array(embeds).squeeze()
         payload = pred_net.evaluate(embeds)
