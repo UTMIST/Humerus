@@ -5,6 +5,7 @@ import pickle5
 
 from utils import humerus
 from utils import pcaifier
+import numpy as np
 
 from sentence_transformers import SentenceTransformer
 
@@ -40,12 +41,15 @@ def eval_model():
         raw_text = request.form.get('text')
         if type(raw_text) == str:
             raw_text = json.loads(raw_text.replace("'", '"'))
-        try:
-            embed = embed_dict[raw_text]
-        except:
-            embed = pca_convert.reduce_kdim(s_model.encode(raw_text), 69)
-        
-        payload = pred_net.evaluate(embed)
+        embeds = []
+        for play in raw_text:
+            try:
+                embeds.append(embed_dict[play])
+            except:
+                embeds.append(pcaifier.reduce_kdim(s_model.encode(play), 69))
+
+        embeds = np.array(embeds).squeeze()
+        payload = pred_net.evaluate(embeds)
         return jsonify([str(i) for i in payload.flatten()])
         
     s = """<form method="POST">
@@ -53,7 +57,6 @@ def eval_model():
                   <input type="submit" value="Submit"><br>
               </form>"""
     return s
-
 
 
 
