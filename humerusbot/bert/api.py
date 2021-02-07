@@ -37,16 +37,16 @@ def eval_model():
     global embed_dict, s_model, pca_convert, pred_net
 
     if request.method == 'POST':  
-        #POST a json list only. for 1 element, do 1 elem list.
+        # POST a json list only. for 1 element, do 1 elem list.
         raw_text = request.form.get('text')
         if type(raw_text) == str:
             raw_text = json.loads(raw_text.replace("'", '"'))
-        embeds = []
+        embeds = {}
         for play in raw_text:
             try:
-                embeds.append(embed_dict[play])
+                embeds[play] = embed_dict[play]
             except:
-                embeds.append(pca_convert.reduce_kdim(s_model.encode(play), 69))
+                embeds[play] = pca_convert.reduce_kdim(s_model.encode(play), 69)
 
         embeds = np.array(embeds).squeeze()
         payload = pred_net.evaluate(embeds)
