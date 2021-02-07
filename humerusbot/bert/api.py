@@ -36,27 +36,31 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 def eval_model():
     global embed_dict, s_model, pca_convert, pred_net
 
-    if request.method == 'POST':  
+    if request.method == 'POST':
         # POST a json list only. for 1 element, do 1 elem list.
         raw_text = request.form.get('text')
         if type(raw_text) == str:
             raw_text = json.loads(raw_text.replace("'", '"'))
-        embeds = {}
+        embeds = []
         for play in raw_text:
             try:
-                embeds[play] = embed_dict[play]
+                embeds.append(embed_dict[play])
             except:
-                embeds[play] = pca_convert.reduce_kdim(s_model.encode(play), 69)
+                embeds.append(pca_convert.reduce_kdim(s_model.encode(play), 69))
 
         embeds = np.array(embeds).squeeze()
         payload = pred_net.evaluate(embeds)
-        return jsonify([str(i) for i in payload.flatten()])
+        payload = [str(i) for i in payload.flatten()]
+
+        return jsonify(dict(zip(raw_text, payload)))
+
         
     s = """<form method="POST">
                   Text: <input type="text" name="text"><br>
                   <input type="submit" value="Submit"><br>
               </form>"""
     return s
+
 
 
 
