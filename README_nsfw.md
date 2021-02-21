@@ -3,10 +3,7 @@
 The humerus bot is a NLP project designed to *win* Cards Against Humanity.
 This repository contains code for the [humerus bot](http://humerusdecks.com/#new) as well as artefacts/code from prior unsuccessful approaches.
 
-`Note: to see the uncensored, NSFW version of this readme, please see` [README_NSFW](./README_nsfw.md) 
-
-
-![banner](./assets/clean_humerus_home.png)
+![banner](./assets/humerus_home.png)
 ## Background Information
 
 [Cards Against Humanity](https://cardsagainsthumanity.com/) is a popular humor-based party game where one attempts to select the funniest response (white card) for a given prompt (black card).
@@ -77,11 +74,11 @@ Overall, the PCA approach looks promising and was therefore deployed in our fina
 ## Results
 
 Here are some example plays
-![ex1](./assets/clean_ex_1.png)
-![ex2](./assets/clean_ex_2.png)
-![ex3](./assets/clean_ex_3.png)
-![ex4](./assets/clean_ex_4.png)
-![ex5](./assets/clean_ex_5.png)
+![ex1](./assets/ex_1.png)
+![ex2](./assets/ex_2.png)
+![ex3](./assets/ex_3.png)
+![ex4](./assets/ex_4.png)
+![ex5](./assets/ex_5.png)
 
 Are they funny? Judge for yourself at [humerusdecks](https://humerusdecks.com). 
 By casual playing it seems that the result is funnier than random choice. In fact, some of the plays are *surprisingly* coherent. But some are pretty awful as well.
