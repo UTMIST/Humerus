@@ -1,7 +1,7 @@
 # humerus-bot
 
 The humerus bot is a NLP project designed to *win* Cards Against Humanity.
-This repository contains code for the [humerus bot](http://humerusdecks.com/#new) as well as artefacts/code from prior unsuccessful approaches.
+This repository contains code for the [humerus bot](http://44.235.156.190/#new) as well as artefacts/code from prior unsuccessful approaches.
 
 `Note: to see the uncensored, NSFW version of this readme, please see` [README_NSFW](./README_nsfw.md) 
 
